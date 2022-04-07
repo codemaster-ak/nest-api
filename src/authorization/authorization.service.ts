@@ -1,7 +1,7 @@
 import {BadRequestException, forwardRef, Inject, Injectable, UnauthorizedException} from '@nestjs/common';
 import {IAuthorizationRequest} from './dto/authorization.request';
 import {UserService} from '../user/user.service';
-import {User, UserCreationAttributes} from '../user/user.model';
+import {IUser, User} from '../user/user.entity';
 import {JwtService} from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import {IToken} from '../common/interfaces/IToken';
@@ -38,7 +38,7 @@ export class AuthorizationService {
     }
 
     private async generateToken(user: User): Promise<IToken> {
-        const payload = {uuid: user.uuid, email: user.email, password: user.password}
+        const payload = {uuid: user.id, email: user.email, password: user.password}
         return {token: this.jwtService.sign(payload)}
     }
 
